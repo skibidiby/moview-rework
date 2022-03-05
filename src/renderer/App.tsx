@@ -2,7 +2,8 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import './App.css';
-import Counter from './features/counter/Counter';
+import Movies from './features/movies/Movies';
+// import Counter from './features/counter/Counter';
 
 const Hello = () => {
   return (
@@ -37,7 +38,7 @@ export default function App() {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/" element={<Counter />} />
+          <Route path="/" element={<Movies />} />
           {/* <Route path="/" element={<Hello />} /> */}
         </Routes>
       </Router>

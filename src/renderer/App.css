@@ -5,3 +5,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tile.active {
+  border: 1px solid rgb(0, 225, 255);
+}
+
+.tile {
+  border: 1px solid black;
+}
+
+.cell-input {
+  border: none;
+  outline: none !important;
+}
+/*  */
+#main:focus {
+  outline: none;
+}
