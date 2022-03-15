@@ -3,18 +3,35 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { collection, getDocs } from 'firebase/firestore/lite';
+import { db } from 'renderer/firebase-config';
 import MovieInfo from './movieInfo';
 import { useAppSelector } from '../../app/hooks';
+import { addMovies } from './movieSlice';
 // import './App.css';
 
 function Movies() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const questionsCol = collection(db, 'movies_test');
+      const quesionSnapshot = await getDocs(questionsCol);
+      const questionListInit = quesionSnapshot.docs.map((doc) => doc.data());
+      console.log(questionListInit);
+      dispatch(addMovies(questionListInit));
+    }
+    fetchMovies();
+  }, [dispatch]);
   const movies = useAppSelector((state) => state.movies.movies);
+  // const [id, setId] = useState(4);
   const [id, setId] = useState(4);
   useEffect(() => {
     document.getElementById('main')!.focus();
   });
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <div
         id="main"
         role="main"
@@ -35,8 +52,10 @@ function Movies() {
           movies.map((e: any, el_id: number) => {
             return (
               <div
-                style={{ backgroundImage: `url(${movies[el_id].cover})` }}
-                className={`bg-blue-100 rounded shadow border p-6 m-4  bg-cover min-w-[100px] ${
+                style={{
+                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movies[el_id].cover})`,
+                }}
+                className={`bg-blue-100 rounded shadow border p-6 m-4 h-30 bg-cover min-w-[100px] ${
                   id === el_id
                     ? ' outline outline-offset-2 outline-2 outline-blue-400'
                     : ' '
@@ -50,7 +69,7 @@ function Movies() {
           })}
       </div>
       <MovieInfo id={id} />
-    </>
+    </div>
   );
 }
 
