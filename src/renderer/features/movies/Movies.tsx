@@ -45,6 +45,15 @@ function Movies() {
           } else if (e.key === 'ArrowLeft') {
             setId(id - 1);
             mainframe.scrollBy({ top: 0, left: -140, behavior: 'smooth' });
+          } else if (e.key === 'Enter') {
+            window.electron.ipcRenderer.openFile(
+              `\\\\${movies[id].pc}\\${
+                movies[id].parent_directory.split('\\')[1]
+                  ? movies[id].parent_directory.split('\\')[1]
+                  : movies[id].parent_directory.split('/')[1]
+              }\\${movies[id].movie_folder}\\${movies[id].file_name}`
+            );
+            // console.log(movies[id].parent_directory.split('\\'));
           }
         }}
       >
