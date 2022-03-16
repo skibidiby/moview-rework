@@ -33,7 +33,7 @@ function MovieInfo(props: Props) {
                       backgroundImage: `url(https://image.tmdb.org/t/p/w500/${i.profile_path})`,
                     }}
                   />
-                  <p className="text-white mt-auto text-sm text-center">
+                  <p className="text-white mt-auto text-sm text-center mt-0">
                     {i.name}
                   </p>
                 </div>
