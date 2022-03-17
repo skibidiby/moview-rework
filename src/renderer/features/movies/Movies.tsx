@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { collection, getDocs } from 'firebase/firestore/lite';
 import { db } from 'renderer/firebase-config';
@@ -25,11 +25,16 @@ function Movies() {
     fetchMovies();
   }, [dispatch]);
   const movies = useAppSelector((state) => state.movies.movies);
-  // const [id, setId] = useState(4);
   const [id, setId] = useState(4);
+  const [infoPanel, setInfoPanel] = useState(false);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const switchPanel = () => {
+    document.getElementById('main')!.focus();
+    setInfoPanel(false);
+  };
   useEffect(() => {
     document.getElementById('main')!.focus();
-  });
+  }, []);
   return (
     <div className="flex flex-col h-screen">
       <div
@@ -39,12 +44,15 @@ function Movies() {
         tabIndex={1}
         onKeyDown={(e) => {
           const mainframe = document.getElementById('main')!;
-          if (e.key === 'ArrowRight') {
+          if (e.key === 'ArrowRight' && id + 2 <= movies.length) {
             setId(id + 1);
             mainframe.scrollBy({ top: 0, left: 140, behavior: 'smooth' });
-          } else if (e.key === 'ArrowLeft') {
+          } else if (e.key === 'ArrowLeft' && id >= 1) {
             setId(id - 1);
             mainframe.scrollBy({ top: 0, left: -140, behavior: 'smooth' });
+          } else if (e.key === 'ArrowDown') {
+            setInfoPanel(true);
+            infoRef.current?.focus();
           } else if (e.key === 'Enter') {
             window.electron.ipcRenderer.openFile(
               `\\\\${movies[id].pc}\\${
@@ -77,7 +85,12 @@ function Movies() {
             );
           })}
       </div>
-      <MovieInfo id={id} />
+      <MovieInfo
+        id={id}
+        infoRef={infoRef}
+        switchPanel={switchPanel}
+        infoPanel={infoPanel}
+      />
     </div>
   );
 }
