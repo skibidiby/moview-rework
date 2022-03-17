@@ -20,5 +20,8 @@
 }
 /*  */
 #main:focus {
-  /* outline: none; */
+  outline: none;
+}
+#info:focus {
+  outline: none;
 }

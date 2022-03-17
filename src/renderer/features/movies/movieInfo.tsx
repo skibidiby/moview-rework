@@ -32,9 +32,12 @@ function MovieInfo(props: Props) {
       ref={infoRef}
       tabIndex={2}
       onKeyDown={(e) => {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        if (
+          (e.key === 'ArrowDown' && elID < 3) ||
+          (e.key === 'ArrowRight' && elID < 3)
+        ) {
           setelID(elID + 1);
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        } else if (e.key === 'ArrowUp' || (e.key === 'ArrowLeft' && elID)) {
           setelID(elID - 1);
           if (elID === 1) {
             switchPanel();
@@ -46,6 +49,9 @@ function MovieInfo(props: Props) {
               break;
             case 2:
               setShowTrailer(!showTrailer);
+              break;
+            case 3:
+              window.open(`https://www.themoviedb.org/movie/${movies[id].id}`);
               break;
 
             default:
